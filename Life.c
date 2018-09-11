@@ -4,6 +4,42 @@
 #include<stdio.h>
 #include<stdbool.h>
 
+int getNumNeighbours(int i, int j, int width, int height, bool map[width][height]){
+    int nNeighbours = 0;
+    printf("middle: %d i: %d j: %d\n",map[i][j],i,j);
+    if(map[i][(j+1)%width] == true){
+        nNeighbours++; //rightside neighbour
+    }
+    printf("right: %d\n", map[i][(j+1)%width]); //test
+    if(map[(i+1)%height][(j)] == true){
+        nNeighbours++; //downside neighbour
+    }
+    printf("down: %d\n", map[(i+1)%height][(j)]); //test
+    if(j==0){
+        if(map[i][width-1] == true){
+            nNeighbours++; //leftside neighbour of edge case
+        }
+        printf("leftedge: %d\n", map[i][width-1]); //test
+    } else {
+        if(map[i][j-1] == true){
+            nNeighbours++; //leftside neighbour
+        }
+        printf("left: %d\n", map[i][j-1]); //test
+    }
+    if(i==0){
+        if(map[height-1][j] == true){
+            nNeighbours++; //topside neighbour of edge case
+        }
+        printf("upedge: %d\n", map[height-1][j]); //test
+    } else {
+        if(map[i-1][j] == true){
+            nNeighbours++; //topside neighbour
+        }
+         printf("up: %d\n", map[i-1][j]); //test
+    }
+    return nNeighbours;
+}
+
 int  main(int argc, char *args[]){
     
      int width;
@@ -17,14 +53,14 @@ int  main(int argc, char *args[]){
       // printf("w = %d h = %d p= %f",width,height, probability);
     }
     bool map[width][height];
-    srand((unsigned) time(&t));
+    srand(0);
     for (int i = 0; i < width; i++){
         for (int j = 0; j < height; j++){
             
              map[i][j] = (double)rand()/RAND_MAX < probability;
            }
     }
-    /*print matricx
+    
     for (int i = 0; i < width; i++){
         for (int j = 0; j < height; j++){
              if(map[i][j]) printf("1\t");
@@ -32,8 +68,8 @@ int  main(int argc, char *args[]){
            }
            printf("\n");
     }
-    */
     
-   
 
+    int test = getNumNeighbours(1,7,width,height,map);
+    printf("NumNeightbours: %d", test);
 }
