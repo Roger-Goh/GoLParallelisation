@@ -3,6 +3,7 @@
 #include<time.h>
 #include<stdio.h>
 #include<stdbool.h>
+#include<string.h>
 
 int getNumNeighbours(int i, int j, int width, int height, bool map[width][height]){
     int nNeighbours = 0;
@@ -49,27 +50,26 @@ int  main(int argc, char *args[]){
     if(argc==4){
         width = atoi(args[1]);
         height = atoi(args[2]);
-       probability = atof(args[3]);
+        probability = atof(args[3]);
       // printf("w = %d h = %d p= %f",width,height, probability);
     }
     bool map[width][height];
     srand(0);
     for (int i = 0; i < width; i++){
         for (int j = 0; j < height; j++){
-            
              map[i][j] = (double)rand()/RAND_MAX < probability;
            }
     }
     
-    for (int i = 0; i < width; i++){
-        for (int j = 0; j < height; j++){
-             if(map[i][j]) printf("1\t");
-             if(!map[i][j]) printf("0\t");
-           }
-           printf("\n");
-    }
-    
+    // printf("FUCKING ORIGINAL MAP\n");
+    // for (int i = 0; i < width; i++){
+    //     for (int j = 0; j < height; j++){
+    //          if(map[i][j]) printf("1\t");
+    //          if(!map[i][j]) printf("0\t");
+    //        }
+    //        printf("\n");
+    // }
 
-    int test = getNumNeighbours(1,7,width,height,map);
-    printf("NumNeightbours: %d", test);
+    //int test = getNumNeighbours(1,7,width,height,map);
+    //printf("NumNeightbours: %d", test);
 }
