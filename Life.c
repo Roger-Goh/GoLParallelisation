@@ -64,15 +64,17 @@ int  main(int argc, char *args[]){
             map[i*height+j] = (double)rand()/RAND_MAX < probability;
            }
     }
+    FILE *f;
+    f = fopen("matrics.txt", "w");
    //print matrix
-   /*
+   
     for(int i = 0; i < width; i++){
         for (int j = 0; j < height; j++){
-             if(map[i*height+j]) printf("1\t");
-             if(!map[i*height+j]) printf("0\t");
+             if(map[i*height+j]) fprintf(f,"1\t");
+             if(!map[i*height+j]) fprintf(f,"0\t");
            }
-           printf("\n");
-    }*/
+           fprintf(f,"\n");
+    }
     //sequential 
     beginS = clock();
     for(int l = 0; l < 100; l++){  //the main loop
