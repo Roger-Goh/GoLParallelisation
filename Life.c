@@ -3,6 +3,7 @@
 #include<time.h>
 #include<stdio.h>
 #include<stdbool.h>
+#include<string.h>
 
 int getNumNeighbours(int i, int j, int width, int height, bool *map){
     int nNeighbours = 0;
@@ -48,11 +49,10 @@ int  main(int argc, char *args[]){
     time_t t,beginS,beginP,endS,endP; //for timing the sequential  and parallel program
     double probability;
     char *fileName;
-    if(argc==4  ){
+    if(argc==4){
         width = atoi(args[1]);
         height = atoi(args[2]);
         probability = atof(args[3]);
-        //fileName = args[4];
       // printf("w = %d h = %d p= %f",width,height, probability);
     }else{
         printf("to run please enter width height probability");
@@ -60,6 +60,8 @@ int  main(int argc, char *args[]){
     }
    // FILE *file;
    // file = fopen(fileName,"a");
+    FILE *file;
+    file = fopen("seqVSparallel.txt","a");
     //map initialisation
     bool *map= (bool *)malloc(width*height*sizeof(bool));
     bool *nextMap= (bool *)malloc(width*height*sizeof(bool));
@@ -71,6 +73,19 @@ int  main(int argc, char *args[]){
             map[i*height+j] = (double)rand()/RAND_MAX < probability;
            }
     }
+
+//    FILE *f;
+//    f = fopen("matrix.txt", "w");
+//    //print matrix
+//     for(int i = 0; i < width; i++){
+//         for (int j = 0; j < height; j++){
+//              if(map[i*height+j]) fprintf(f,"1\t");
+//              if(!map[i*height+j]) fprintf(f,"0\t");
+//            }
+//            fprintf(f,"\n");
+//     }
+//     fclose(f);
+    
     //sequential 
     beginS = clock();
     for(int l = 0; l < 100; l++){  //the main loop
@@ -108,8 +123,8 @@ int  main(int argc, char *args[]){
         }*/
     }
     endS = clock();
-    printf("time for sequential =%f\t",(double)(endS - beginS) / CLOCKS_PER_SEC);
-    omp_set_num_threads(4);
+    fprintf(file,"%f\t",(double)(endS - beginS) / CLOCKS_PER_SEC);
+    //omp_set_num_threads(4);
     //parallazation using omp
     beginP = clock();
     for(int s = 0; s < 100; s++){
@@ -140,6 +155,6 @@ int  main(int argc, char *args[]){
     }
 
     endP = clock();
-    printf("time for parallel =%f\n",(double)(endP - beginP) / CLOCKS_PER_SEC);
-    //fclose(file);
+    fprintf(file,"%f\n",(double)(endP - beginP) / CLOCKS_PER_SEC);
+    fclose(file);
 }
