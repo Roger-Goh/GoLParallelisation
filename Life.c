@@ -47,12 +47,19 @@ int  main(int argc, char *args[]){
     int height;
     time_t t,beginS,beginP,endS,endP; //for timing the sequential  and parallel program
     double probability;
-    if(argc==4){
+    char *fileName;
+    if(argc==5){
         width = atoi(args[1]);
         height = atoi(args[2]);
-       probability = atof(args[3]);
+        probability = atof(args[3]);
+        fileName = args[4];
       // printf("w = %d h = %d p= %f",width,height, probability);
+    }else{
+        printf("to run please enter width height probability");
+        exit(EXIT_FAILURE);
     }
+    FILE *file;
+    file = fopen(fileName,"w");
     //map initialisation
     bool *map= (bool *)malloc(width*height*sizeof(bool));
     bool *nextMap= (bool *)malloc(width*height*sizeof(bool));
@@ -64,10 +71,10 @@ int  main(int argc, char *args[]){
             map[i*height+j] = (double)rand()/RAND_MAX < probability;
            }
     }
-    FILE *f;
-    f = fopen("matrics.txt", "w");
+   // FILE *f;
+   // f = fopen("matrics.txt", "w");
    //print matrix
-   
+   /*
     for(int i = 0; i < width; i++){
         for (int j = 0; j < height; j++){
              if(map[i*height+j]) fprintf(f,"1\t");
@@ -75,6 +82,7 @@ int  main(int argc, char *args[]){
            }
            fprintf(f,"\n");
     }
+    */
     //sequential 
     beginS = clock();
     for(int l = 0; l < 100; l++){  //the main loop
@@ -112,7 +120,7 @@ int  main(int argc, char *args[]){
         }*/
     }
     endS = clock();
-    printf("time for sequential =%f\n",(double)(endS - beginS) / CLOCKS_PER_SEC);
+    fprintf(file,"time for sequential =%f\t",(double)(endS - beginS) / CLOCKS_PER_SEC);
 
     //parallazation using omp
     beginP = clock();
@@ -144,6 +152,6 @@ int  main(int argc, char *args[]){
     }
 
     endP = clock();
-    printf("time for parallel =%f\n",(double)(endP - beginP) / CLOCKS_PER_SEC);
+    fprintf(file,"time for parallel =%f\n",(double)(endP - beginP) / CLOCKS_PER_SEC);
 
 }

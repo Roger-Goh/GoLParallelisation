@@ -1,0 +1,1 @@
+time for sequential =0.000000	time for parallel =0.016000
